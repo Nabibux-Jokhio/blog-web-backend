@@ -1,11 +1,22 @@
 import express from "express"
 import { enums } from "../constant/enums.js"
+import { Blog } from "../models/blog.model.js"
 
 const blogRoute = express.Router()
 
-blogRoute.get("/", (req, res) => {
+blogRoute.get("/", async (req, res) => {
     try {
-        res.status(200).send({ status: 200 , message:enums.SUCCESS_MSG , data:[] })
+        const getAllBlog = await Blog.find()
+        res.status(200).send({ status: 200, message: enums.SUCCESS_MSG, data: getAllBlog })
+    } catch (error) {
+        res.status(400).send({ status: 400, message: enums.ERROR_CONNECTION })
+    }
+})
+blogRoute.get("/blog/add", async (req, res) => {
+    try {
+        const data = req.body;
+        const response = await Blog.create(data)
+        res.status(200).send({ status: 200, message: enums.ADD_MSG, data: response })
     } catch (error) {
         res.status(400).send({ status: 400, message: enums.ERROR_CONNECTION })
     }
