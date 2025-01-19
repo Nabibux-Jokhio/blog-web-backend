@@ -1,8 +1,10 @@
 import express from "express"
 import dotenv from "dotenv"
-import blogRoute from "./src/routes/blogRoutes.js";
+import cors from "cors"
 import mongoose from "mongoose";
 import { DB_NAME } from "./src/constant/enums.js";
+import router from "./src/routes/index.js";
+
 
 
 
@@ -12,8 +14,9 @@ dotenv.config()
 const PORT = process.env.PORT || 8080
 const MONGODB_URI = process.env.MONGODB_URI
 
-
-app.use("/", blogRoute)
+app.use(express.json())
+app.use(cors())
+app.use("/api",router)
 
 mongoose.connect(`${MONGODB_URI}/${DB_NAME}`)
 .then(()=>{
