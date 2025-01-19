@@ -2,6 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import mongoose from "mongoose";
+import router from "./src/router/index.js";
+
 
 
 
@@ -14,7 +16,7 @@ const MONGODB_URI = process.env.MONGODB_URI
 
 app.use(express.json())
 app.use(cors())
-// app.use("/api",router)
+app.use("/api",router)
 
 mongoose.connect(`${MONGODB_URI}/${DB_NAME}`)
 .then(()=>{
